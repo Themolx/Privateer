@@ -6,7 +6,7 @@ Source code for web scraping and archival tools developed as part of the film wo
 
 ## The Film
 
-**Seed / Spider** visualizes the architecture of algorithmic recommendation through the act of web scraping itself. A crawler traverses a Czech streaming platform, each show appearing as a node in a growing network. The spider moves, links, captures. What appears is not content but the skeleton of its delivery. A portrait of attention infrastructure.
+**Spider** visualizes the architecture of algorithmic recommendation through the act of web scraping itself. A crawler traverses a Czech streaming platform, each show appearing as a node in a growing network. The spider moves, links, captures. What appears is not content but the skeleton of its delivery. A portrait of attention infrastructure.
 
 [View the film](https://martintomekvfx.github.io/work/scraping-the-internet)
 
