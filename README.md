@@ -1,87 +1,84 @@
-# Archive Tools
+# Privateer
 
-A collection of instruments for the preservation of moving images.
+Source code for web scraping and archival tools developed as part of the film work *Seed / Spider*.
 
 ---
+
+## The Film
+
+**Seed / Spider** visualizes the architecture of algorithmic recommendation through the act of web scraping itself. A crawler traverses a Czech streaming platform, each show appearing as a node in a growing network. The spider moves, links, captures. What appears is not content but the skeleton of its delivery. A portrait of attention infrastructure.
+
+[View the film](https://martintomekvfx.github.io/work/scraping-the-internet)
+
+---
+
+The network structure references the original promise of decentralization, from which the contemporary internet is receding. Large platforms centralize but do not archive. The promise of a universal library for a monthly fee proves fragile. Content disappears, licenses expire, services shut down.
+
+The source code of the scraper and visualization tool is part of the work. Data flows in the opposite direction. Each node in the network is also a reminder of the possibility of becoming an endpoint oneself. Not returning to the center, but building one's own archive. The film is a trace of this process.
+
+---
+
+## Platforms
+
+Tools for retrieving and cataloging video content from:
+
+| Platform | Country | Type | Tools |
+|----------|---------|------|-------|
+| **DAFilms.cz** | CZ | Documentary streaming | `dafilms_dl.py`, `dafilms_scraper.py` |
+| **Artycok.tv** | CZ | Art and experimental video | `artycok_dl.py` |
+| **OnePlay.cz** | CZ | Czech television content | `oneplay_dl.py` |
+| **Ceska Televize** | CZ | Public broadcaster archive | `ct_batch_download.py` |
+| **Nahnoji.cz** | CZ | Video hosting | `nahnoji.js` |
+| **Prehrajto.cz** | CZ | Video hosting | `prehrajto.js` |
+| **Archive.org** | US | Internet Archive | `archive-scraper.js`, `archive-org-scraper.js` |
+| **NFB.ca** | CA | National Film Board of Canada | `nfb_download.py`, `nfb_index.py` |
+
+---
+
+## Repository Structure
 
 ```
-"The cinema is truth twenty-four times per second."
-                                    — Jean-Luc Godard
+downloaders/
+    dafilms_dl.py           Documentary films from DAFilms.cz
+    artycok_dl.py           Art video from Artycok.tv
+    oneplay_dl.py           Czech streaming content
+    ct_batch_download.py    Czech Television archive
+    nfb_download.py         National Film Board of Canada
+
+scrapers/
+    dafilms_scraper.py      DAFilms catalog extraction
+    archive-scraper.js      Archive.org traversal
+    archive-org-scraper.js  Archive.org film search
+    nfb_index.py            NFB catalog indexing
+    prehrajto.js            Prehrajto.cz parser
+    nahnoji.js              Nahnoji.cz parser
+
+jellyfin-tools/
+    tv-downloader.js        TV series download orchestrator
+    smart-media-manager.js  Library organization and maintenance
+    downloaders/            Platform-specific download modules
+
+subtitle-tools/
+    subtitle-fetcher.js     Czech subtitle retrieval
+    titulky-fetcher.js      Titulky.com interface
+
+utils/
+    organize_library.py     Film categorization by duration
+    smart-download.js       Intelligent download routing
 ```
-
----
-
-## On Digital Preservation
-
-These tools emerged from a simple necessity: to gather, organize, and preserve
-video content that exists in the ephemeral space of streaming platforms. What
-streams today may vanish tomorrow. What plays now may never play again.
-
-The digital archive is not a static repository but a living practice — a ritual
-of selection, retrieval, and arrangement. Each script in this collection serves
-as a small gesture toward permanence in a medium defined by its transience.
-
----
-
-## The Instruments
-
-### Downloaders
-
-Scripts for retrieving video content from Czech streaming platforms.
-
-| Tool | Platform | Purpose |
-|------|----------|---------|
-| `dafilms_dl.py` | DAFilms.cz | Documentary films |
-| `artycok_dl.py` | Artycok.tv | Art and experimental video |
-| `oneplay_dl.py` | OnePlay.cz | Czech television content |
-| `ct_batch_download.py` | iVysilani | Czech Television archive |
-
-### Scrapers
-
-Tools for discovering and cataloging available content.
-
-| Tool | Function |
-|------|----------|
-| `dafilms_scraper.py` | Extract film listings from DAFilms |
-| `prehrajto.js` | Navigate streaming directories |
-| `nahnoji.js` | Parse video hosting structures |
-
-### Jellyfin Tools
-
-Integration layer for personal media servers.
-
-| Tool | Purpose |
-|------|---------|
-| `tv-downloader.js` | Orchestrate TV series downloads |
-| `smart-media-manager.js` | Organize and maintain libraries |
-| `subtitle-fetcher.js` | Retrieve Czech subtitles |
-| `titulky-fetcher.js` | Interface with titulky.com |
-
-### Utilities
-
-| Tool | Purpose |
-|------|---------|
-| `organize_library.py` | Sort films by category |
 
 ---
 
 ## Requirements
 
-### Python Tools
+### Python
 
-```
-playwright
-requests
-yt-dlp
-```
-
-Install with:
 ```bash
 pip install playwright requests yt-dlp
 python -m playwright install chromium
 ```
 
-### JavaScript Tools
+### Node.js
 
 ```bash
 npm install puppeteer axios cheerio
@@ -89,90 +86,37 @@ npm install puppeteer axios cheerio
 
 ---
 
-## Configuration
+## Usage
 
-Each tool reads from local configuration. Before first use:
+Each tool operates independently. Configuration through command-line arguments or local files.
 
-1. Create a `cookies.txt` file with your session cookies
-2. Set output directory via `--output` or edit defaults in script
-3. Prepare URL lists in JSON format
-
-### Cookie Format
-
-Export cookies from your browser using any cookie export extension.
-The file should follow Netscape cookie format or JSON array structure.
-
-### URL List Format
-
-```json
-[
-  {"url": "https://example.com/film/123-title"},
-  {"url": "https://example.com/film/456-another"}
-]
-```
-
----
-
-## Usage Patterns
-
-### Single Retrieval
+### Download
 
 ```bash
 python dafilms_dl.py https://dafilms.cz/film/12345-title
-```
-
-### Batch Processing
-
-```bash
 python dafilms_dl.py --json films.json --output ./archive
 ```
 
-### Dry Run
+### Scrape
 
-Preview without downloading:
 ```bash
-python dafilms_dl.py --json films.json --dry-run
+node archive-scraper.js --search "czech animation"
+python nfb_index.py --category animation
 ```
 
-### Jellyfin TV Series
+### Organize
 
 ```bash
-node tv-downloader.js --list
-node tv-downloader.js --show series-name --output ./library
+python organize_library.py --json category.json --target animated
 ```
 
 ---
 
-## On Organization
+## On Archiving
 
-Films are sorted by duration into categories:
+Streaming interfaces present content as a neutral offering, but the structure of this offering is itself a curatorial gesture. These tools make that structure visible.
 
-- **shorts/** — works of 40 minutes or fewer
-- **features/** — works exceeding 40 minutes
-
-Directory structure follows Jellyfin conventions:
-
-```
-archive/
-  shorts/
-    Title (Year) - Director/
-      Title (Year) - Director.mp4
-      Title (Year) - Director.nfo
-  features/
-    Title (Year) - Director/
-      Title (Year) - Director.mp4
-      Title (Year) - Director.nfo
-```
-
----
-
-## Provenance
-
-Developed as part of an archival practice at CAS FAMU, Prague.
-
-These tools are offered without warranty, as instruments for those engaged
-in the work of preservation. Use them with care and consideration for the
-labor of those who created the works you seek to preserve.
+The spider does not distinguish between documentary and reality show, between original production and licensed format. Everything is an equivalent data point. What we choose to preserve is a different question.
 
 ---
 
@@ -180,18 +124,10 @@ labor of those who created the works you seek to preserve.
 
 MIT License
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files, to deal in the software
-without restriction, including without limitation the rights to use, copy,
-modify, merge, publish, distribute, sublicense, and/or sell copies of the
-software, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the software.
-
 ---
 
-```
-"Film is a battleground."
-              — Samuel Fuller
-```
+## Context
+
+Developed at CAS FAMU, Prague.
+
+Part of the ongoing work on digital preservation and attention infrastructure.
