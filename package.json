@@ -1,0 +1,17 @@
+{
+    "name": "archive-tools",
+    "version": "1.0.0",
+    "description": "Tools for video archive preservation",
+    "type": "module",
+    "scripts": {
+        "tv-download": "node jellyfin-tools/tv-downloader.js",
+        "media-manager": "node jellyfin-tools/smart-media-manager.js"
+    },
+    "dependencies": {
+        "axios": "^1.6.0",
+        "cheerio": "^1.0.0-rc.12",
+        "puppeteer": "^21.0.0"
+    },
+    "author": "",
+    "license": "MIT"
+}
