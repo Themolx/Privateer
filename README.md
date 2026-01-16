@@ -126,8 +126,8 @@ MIT License
 
 ---
 
-## Context
+## Disclaimer
 
-Developed at CAS FAMU, Prague.
+These tools are provided for research and educational purposes only.
 
-Part of the ongoing work on digital preservation and attention infrastructure.
+Respect the terms of service of each platform. Consider the labor of those who created the works you seek to preserve.
